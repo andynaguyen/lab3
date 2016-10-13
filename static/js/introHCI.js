@@ -11,8 +11,38 @@ $(document).ready(function() {
 function initializePage() {
 	$("#testjs").click(function(e) {
 		$('.jumbotron h1').text("Javascript is connected");
+		$('#testjs').text("Clicked");
+		$('.jumbotron p').toggleClass('active');
 	});
+
+	$("a.thumbnail").click(projectClick);
 
 	// Add any additional listeners here
 	// example: $("#div-id").click(functionToCall);
+}
+
+function projectClick(e) {
+	console.log('Project Clicked');
+
+	//prevent reload
+	e.preventDefault();
+
+	// In an event handler, $this refers to the
+	// object that triggered the event
+	$(this).css("background-color", "#7fff00");
+
+	var projectTitle = $(this).find('p').text();
+	var jumbotronHeader = $('.jumbotron h1');
+	jumbotronHeader.text(projectTitle);
+
+	var containingProject = $(this).closest('.project');
+	var description = $(containingProject).find('.project-description');
+
+	if (!containingProject.is('.active')) {
+		containingProject.append('<div class="project-description"><p>Description of the project.</p></div>');
+		containingProject.toggleClass('active');
+	} else {
+		containingProject.toggleClass('active');
+		description.fadeOut();
+	}
 }
